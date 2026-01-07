@@ -48,7 +48,9 @@ public class InsightService {
     ) {
         SelfAssessment assessment = assessmentRepository
                 .findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Assessment not found"));
+                .orElseThrow(() ->
+                        new IllegalArgumentException("No self-assessment found for this user")
+                );
 
         Map<String, Integer> companyFailures =
                 getCompanyFailureHotspots(company);
