@@ -2,9 +2,11 @@ package com.surajupadhye.prepgap.insight;
 
 import com.surajupadhye.prepgap.ai.AiSummaryService;
 import com.surajupadhye.prepgap.dto.CompanyInsightSummary;
+import com.surajupadhye.prepgap.interview.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -65,6 +67,12 @@ public class InsightController {
         return ResponseEntity.ok(
                 aiSummaryService.generateCompanyInsightSummary(company, hotspots)
         );
+    }
+
+    // for ai recommendation of resources
+    @PostMapping("/resources")
+    public ResponseEntity<List<Resource>> getAiResources(@RequestBody List<String> topics) {
+        return ResponseEntity.ok(aiSummaryService.generateResourceRecommendations(topics));
     }
 
 

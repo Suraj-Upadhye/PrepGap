@@ -36,12 +36,12 @@ public class DataSeeder {
             /* ---------- COLLEGE ---------- */
             College college = new College();
             college.setCollegeName("Walchand College of Engineering");
-            college.setCollegeDomain("wce.ac.in");
+            college.setCollegeDomain("walchandsangli.ac.in");
             collegeRepository.save(college);
 
             /* ---------- USERS ---------- */
             User user1 = new User();
-            user1.setEmail("student1@wce.ac.in");
+            user1.setEmail("student1@walchandsangli.ac.in");
             user1.setCollegeId(college.getId());
             user1.setDepartment("CSE");
             user1.setGraduationYear(2026);

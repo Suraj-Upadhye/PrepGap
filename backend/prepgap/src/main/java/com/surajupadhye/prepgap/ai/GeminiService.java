@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.util.retry.Retry;
 
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -45,6 +48,9 @@ public class GeminiService {
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(String.class)
+                // RETRY LOGIC: Wait 2s, try again (max 3 times)
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(2))
+                        .filter(throwable -> throwable instanceof WebClientResponseException.TooManyRequests))
                 .block();
 
         return GeminiResponseParser.extractText(rawResponse);

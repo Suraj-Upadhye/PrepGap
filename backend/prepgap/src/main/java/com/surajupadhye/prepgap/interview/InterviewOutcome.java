@@ -35,6 +35,12 @@ public class InterviewOutcome {
     // Stage-wise details
     private List<InterviewStageOutcome> stages;
 
+    // Resources used for preparation
+    private List<Resource> candidateResources;
+
+    // Tips and tricks and free style opinion sharing
+    private String tipsForJuniors;
+
     // Context
     private String department;
     private Integer interviewYear;
