@@ -39,11 +39,14 @@ public class GeminiService {
                 )
         );
 
-        return webClient.post()
+        String rawResponse = webClient.post()
                 .uri(apiUrl + "?key=" + apiKey)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(request)
-                .exchangeToMono(res -> res.bodyToMono(String.class))
+                .retrieve()
+                .bodyToMono(String.class)
                 .block();
+
+        return GeminiResponseParser.extractText(rawResponse);
     }
 }

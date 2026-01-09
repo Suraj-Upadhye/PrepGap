@@ -1,6 +1,7 @@
 package com.surajupadhye.prepgap.insight;
 
 import com.surajupadhye.prepgap.ai.AiSummaryService;
+import com.surajupadhye.prepgap.dto.CompanyInsightSummary;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +58,7 @@ public class InsightController {
 
 
     @GetMapping("/company/{company}/summary")
-    public ResponseEntity<String> getCompanyInsightSummary(
+    public ResponseEntity<CompanyInsightSummary> getCompanyInsightSummary(
             @PathVariable String company
     ) {
         var hotspots = insightService.getCompanyFailureHotspots(company);
@@ -65,5 +66,6 @@ public class InsightController {
                 aiSummaryService.generateCompanyInsightSummary(company, hotspots)
         );
     }
+
 
 }
