@@ -22,8 +22,14 @@ public class SecurityConfig {
 
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
+    // This is used for Logout Redirect (e.g., https://prepgap.vercel.app)
     @Value("${app.base-url}")
     private String baseUrl;
+
+    // --- MISSING PART ADDED HERE ---
+    // This is used for CORS logic (e.g., https://prepgap.vercel.app/dashboard)
+    @Value("${app.frontend.dashboard-url}")
+    private String frontendDashboardUrl;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,7 +42,7 @@ public class SecurityConfig {
 
                 // Authorization
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login/**", "/oauth2/**", "/logout").permitAll() // Allow logout access
+                        .requestMatchers("/", "/login/**", "/oauth2/**", "/logout", "/health").permitAll()
                         .anyRequest().authenticated()
                 )
 
@@ -45,13 +51,13 @@ public class SecurityConfig {
                         .successHandler(oAuth2LoginSuccessHandler)
                 )
 
-                // --- ADDED LOGOUT CONFIGURATION ---
+                // Logout Configuration
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // The URL to trigger logout
-                        .logoutSuccessUrl(baseUrl) // Redirect here after logout
-                        .invalidateHttpSession(true) // Kill the session
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl(baseUrl) // Redirect to Landing Page
+                        .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID") // Kill the cookie
+                        .deleteCookies("JSESSIONID")
                 );
 
         return http.build();
@@ -60,10 +66,21 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(baseUrl));
+
+        // 1. Clean the URL: Remove "/dashboard" if it exists to get the pure origin
+        // Example: https://prepgap.vercel.app/dashboard -> https://prepgap.vercel.app
+        String frontendOrigin = frontendDashboardUrl.replace("/dashboard", "");
+
+        // 2. Set Allowed Origins (Local + Production)
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://localhost:5173",
+                frontendOrigin // <--- Uses the injected variable correctly now
+        ));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true); // Essential for cookies
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
