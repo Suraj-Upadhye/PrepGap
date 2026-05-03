@@ -13,8 +13,9 @@ public class CookieConfig {
     public TomcatContextCustomizer tomcatContextCustomizer() {
         return context -> {
             Rfc6265CookieProcessor cookieProcessor = new Rfc6265CookieProcessor();
-            // Force SameSite=None so the cookie survives the trip from Render to Vercel
-            cookieProcessor.setSameSiteCookies(SameSiteCookies.NONE.getValue());
+            // Using LAX instead of NONE for local development compatibility over HTTP.
+            // When deploying to production (Render/Vercel), this may need to be NONE + Secure.
+            cookieProcessor.setSameSiteCookies(SameSiteCookies.LAX.getValue());
             context.setCookieProcessor(cookieProcessor);
         };
     }

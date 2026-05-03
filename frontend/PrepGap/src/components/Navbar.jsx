@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import {
   TrendingUp,
   LayoutDashboard,
@@ -7,15 +8,28 @@ import {
   Zap,
   Target,
   LogOut,
+  LogIn,
   Building2,
 } from "lucide-react";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, { withCredentials: true });
+        setIsAuthenticated(true);
+      } catch (err) {
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuth();
+  }, [location.pathname]);
 
   const handleLogout = () => {
-    // The backend will then redirect back to localhost:3000/ automatically
     window.location.href = `${import.meta.env.VITE_API_URL}/logout`;
   };
 
@@ -35,7 +49,7 @@ const Navbar = () => {
           {/* Logo Section */}
           <div
             className="flex items-center space-x-2 cursor-pointer group"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate(isAuthenticated ? "/dashboard" : "/")}
           >
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-md group-hover:bg-indigo-700 transition-colors">
               <TrendingUp className="w-5 h-5 text-white" />
@@ -46,8 +60,8 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => {
+          <nav className="hidden md:flex items-center space-x-1">
+            {isAuthenticated && navItems.map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
@@ -70,34 +84,33 @@ const Navbar = () => {
             })}
 
             {/* Divider */}
-            <div className="h-6 w-px bg-slate-200 mx-2"></div>
+            {isAuthenticated && <div className="h-6 w-px bg-slate-200 mx-2"></div>}
 
-            {/* Logout Button */}
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
-          </div>
-
-          {/* Mobile Menu Button (Placeholder for future) */}
-          <div className="md:hidden">
-            <button className="text-slate-500 hover:text-slate-700">
-              <span className="sr-only">Open menu</span>
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            {/* Auth Button */}
+            {isAuthenticated ? (
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <LogOut className="w-4 h-4" />
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate("/login")}
+                className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-all shadow-md shadow-indigo-200"
+              >
+                <LogIn className="w-4 h-4" />
+                Login
+              </button>
+            )}
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button className="text-slate-500 hover:text-slate-700 p-2">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>

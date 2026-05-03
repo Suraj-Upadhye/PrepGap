@@ -1,0 +1,29 @@
+spring.application.name=prepgap
+server.port=8080
+
+# --- MongoDB Configuration ---
+# Use your local MongoDB or Atlas URI here
+spring.data.mongodb.uri=mongodb://localhost:27017/prepgap
+
+# --- Google OAuth2 Configuration ---
+# Get these from Google Cloud Console (APIs & Services > Credentials)
+spring.security.oauth2.client.registration.google.client-id=YOUR_CLIENT_ID
+spring.security.oauth2.client.registration.google.client-secret=YOUR_CLIENT_SECRET
+
+# --- Application URLs ---
+# Used for Logout Redirect and CORS
+app.base-url=http://localhost:8080
+app.frontend.dashboard-url=http://localhost:5173/dashboard
+
+# --- Gemini AI Configuration ---
+# Get your API key from https://aistudio.google.com/
+gemini.api.key=YOUR_GEMINI_API_KEY
+gemini.api.url=https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent
+
+
+spring.mail.host=YOUR_MAIL_HOST
+spring.mail.port=YOUR_MAIL_PORT
+spring.mail.username=YOUR_MAIL_USERNAME
+spring.mail.password=YOUR_MAIL_PASSWORD
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true

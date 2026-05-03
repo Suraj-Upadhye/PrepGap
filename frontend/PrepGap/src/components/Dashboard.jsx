@@ -45,14 +45,15 @@ const Dashboard = () => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-full border border-indigo-100 uppercase tracking-wide">
-                Student Portal
+                Community Portal
               </span>
             </div>
             <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
               Welcome back, <span className="text-indigo-600">{firstName}</span>
             </h1>
             <p className="text-slate-500 mt-2 text-lg">
-              Track your placement readiness and analyze failure trends.
+              Explore company reviews, interview experiences, and discussion
+              activity.
             </p>
           </div>
 
@@ -82,14 +83,14 @@ const Dashboard = () => {
                 <Brain className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2">
-                Failure Intelligence
+                Company Intelligence
               </h3>
               <p className="text-slate-500 mb-6 max-w-md">
-                Analyze why candidates fail at Amazon, Google, and more. Get
-                Gemini AI-powered summaries.
+                Browse community reviews, interview notes, and AI summaries for
+                companies people actually care about.
               </p>
               <div className="flex items-center text-indigo-600 font-bold text-sm group-hover:translate-x-1 transition-transform">
-                Get Intelligence <ArrowRight className="w-4 h-4 ml-1" />
+                Open Reviews <ArrowRight className="w-4 h-4 ml-1" />
               </div>
             </div>
           </div>
@@ -106,10 +107,11 @@ const Dashboard = () => {
                   <Plus className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">
-                  Submit Data
+                  Share a Review
                 </h3>
                 <p className="text-slate-400 text-sm">
-                  Help juniors by sharing your interview experience anonymously.
+                  Share an interview or work experience anonymously or in public
+                  mode.
                 </p>
               </div>
             </div>
@@ -132,10 +134,11 @@ const Dashboard = () => {
               </span>
             </div>
             <h3 className="text-lg font-bold text-slate-900">
-              Check Readiness
+              Community Discussions
             </h3>
             <p className="text-sm text-slate-500 mt-1">
-              Update your skill profile.
+              Join conversations, like posts, and help surface better company
+              insights.
             </p>
           </div>
 
@@ -152,16 +155,17 @@ const Dashboard = () => {
         </div>
 
         {/* 4. Pro Tip Banner */}
-        <div className="bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-6 text-white shadow-lg flex items-start gap-4">
+        <div className="bg-linear-to-r from-indigo-600 to-violet-600 rounded-2xl p-6 text-white shadow-lg flex items-start gap-4">
           <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
             <TrendingUp className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h4 className="font-bold text-lg">Pro Tip: Focus on Graphs</h4>
+            <h4 className="font-bold text-lg">
+              Pro Tip: Read Before You Apply
+            </h4>
             <p className="text-indigo-100 text-sm mt-1 max-w-2xl">
-              Based on yesterday's data, Amazon rejected 4 candidates
-              specifically due to lack of Graph Algorithm knowledge. Update your
-              preparation strategy!
+              Recent community posts show that interview transparency and
+              culture feedback are the most useful signals for users right now.
             </p>
           </div>
         </div>

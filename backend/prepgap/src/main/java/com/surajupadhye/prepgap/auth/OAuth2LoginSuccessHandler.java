@@ -34,10 +34,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         if (existingUser.isPresent()) {
             User user = existingUser.get();
             user.setLastLoginAt(Instant.now());
+            user.setVerified(true); // Ensure OAuth users are verified
             userRepository.save(user);
         } else {
             User newUser = new User();
             newUser.setEmail(email);
+            newUser.setAuthProvider(AuthProvider.GOOGLE);
+            newUser.setVerified(true);
             newUser.setCreatedAt(Instant.now());
             newUser.setLastLoginAt(Instant.now());
             userRepository.save(newUser);
