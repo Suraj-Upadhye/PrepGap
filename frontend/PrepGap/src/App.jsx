@@ -4,7 +4,6 @@ import LandingPage from "./components/LandingPage";
 import Dashboard from "./components/Dashboard";
 import SubmitInterview from "./components/SubmitInterview";
 import CompanyInsights from "./components/CompanyInsights";
-import SelfAssessment from "./components/SelfAssessment";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import VerifyOtp from "./components/VerifyOtp";
@@ -32,7 +31,6 @@ function App() {
         <Route path="/companies" element={<CompanyList />} />
         <Route path="/companies/:companyName" element={<ExperienceList />} />
         <Route path="/insights" element={<CompanyInsights />} />
-        <Route path="/assessment" element={<SelfAssessment />} />
       </Routes>
     </Router>
   );

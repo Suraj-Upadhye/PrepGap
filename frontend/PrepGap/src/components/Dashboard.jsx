@@ -4,7 +4,6 @@ import Layout from "./Layout"; // Keep the sidebar
 import {
   FileText,
   Brain,
-  Target,
   TrendingUp,
   ArrowRight,
   Plus,
@@ -120,30 +119,8 @@ const Dashboard = () => {
 
         {/* 3. Secondary Actions & Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Readiness Check */}
-          <div
-            onClick={() => navigate("/assessment")}
-            className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:border-emerald-200 hover:shadow-md transition-all cursor-pointer group"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600">
-                <Target className="w-5 h-5" />
-              </div>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                Assessment
-              </span>
-            </div>
-            <h3 className="text-lg font-bold text-slate-900">
-              Community Discussions
-            </h3>
-            <p className="text-sm text-slate-500 mt-1">
-              Join conversations, like posts, and help surface better company
-              insights.
-            </p>
-          </div>
-
           {/* Activity Placeholder */}
-          <div className="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center items-center text-center">
+          <div className="md:col-span-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center items-center text-center">
             <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mb-3">
               <Activity className="w-5 h-5 text-slate-400" />
             </div>

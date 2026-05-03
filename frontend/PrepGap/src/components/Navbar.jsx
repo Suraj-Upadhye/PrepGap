@@ -6,7 +6,6 @@ import {
   LayoutDashboard,
   PenTool,
   Zap,
-  Target,
   LogOut,
   LogIn,
   Building2,
@@ -20,7 +19,9 @@ const Navbar = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, { withCredentials: true });
+        await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
+          withCredentials: true,
+        });
         setIsAuthenticated(true);
       } catch (err) {
         setIsAuthenticated(false);
@@ -39,7 +40,6 @@ const Navbar = () => {
     { name: "Submit", path: "/submit", icon: PenTool },
     { name: "Browse", path: "/companies", icon: Building2 },
     { name: "Insights", path: "/insights", icon: Zap },
-    { name: "Readiness", path: "/assessment", icon: Target },
   ];
 
   return (
@@ -61,30 +61,33 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center space-x-1">
-            {isAuthenticated && navItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-200 ${
-                    isActive
-                      ? "bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-200"
-                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                  }`}
-                >
-                  <item.icon
-                    className={`w-4 h-4 ${
-                      isActive ? "text-indigo-600" : "text-slate-400"
+            {isAuthenticated &&
+              navItems.map((item) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition-all duration-200 ${
+                      isActive
+                        ? "bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-200"
+                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                     }`}
-                  />
-                  {item.name}
-                </Link>
-              );
-            })}
+                  >
+                    <item.icon
+                      className={`w-4 h-4 ${
+                        isActive ? "text-indigo-600" : "text-slate-400"
+                      }`}
+                    />
+                    {item.name}
+                  </Link>
+                );
+              })}
 
             {/* Divider */}
-            {isAuthenticated && <div className="h-6 w-px bg-slate-200 mx-2"></div>}
+            {isAuthenticated && (
+              <div className="h-6 w-px bg-slate-200 mx-2"></div>
+            )}
 
             {/* Auth Button */}
             {isAuthenticated ? (
@@ -109,8 +112,18 @@ const Navbar = () => {
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button className="text-slate-500 hover:text-slate-700 p-2">
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
             </button>
           </div>

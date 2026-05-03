@@ -4,9 +4,7 @@ import {
   BarChart3,
   Brain,
   AlertTriangle,
-  Target,
   Zap,
-  ShieldAlert,
   Search,
   Loader2,
 } from "lucide-react";
@@ -16,7 +14,6 @@ const CompanyInsights = () => {
   const [company, setCompany] = useState("Amazon");
   const [stats, setStats] = useState(null);
   const [aiSummary, setAiSummary] = useState(null);
-  const [readiness, setReadiness] = useState(null);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({ email: "Student" });
 
@@ -31,7 +28,6 @@ const CompanyInsights = () => {
     setLoading(true);
     setStats(null);
     setAiSummary(null);
-    setReadiness(null);
 
     try {
       // Parallel requests for better performance
@@ -42,17 +38,6 @@ const CompanyInsights = () => {
 
       setStats(statsRes.data);
       setAiSummary(aiRes.data);
-
-      if (user && user.id) {
-        try {
-          const readyRes = await api.get(
-            `/api/insights/readiness?userId=${user.id}&company=${company}`
-          );
-          setReadiness(readyRes.data);
-        } catch (e) {
-          console.warn("Could not fetch readiness.");
-        }
-      }
     } catch (error) {
       console.error("Failed to fetch insights", error);
       alert("Could not fetch data. Ensure company name is correct.");
@@ -87,13 +72,13 @@ const CompanyInsights = () => {
             Company Intelligence
           </h1>
           <p className="text-slate-500 text-sm mt-1">
-            Analyze failure patterns and check your personal readiness score.
+            Analyze company-wide discussion signals and community feedback.
           </p>
         </div>
 
         {/* Search Bar */}
         <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-end">
-          <div className="flex-grow w-full relative">
+          <div className="grow w-full relative">
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
               Target Company
             </label>
@@ -130,7 +115,7 @@ const CompanyInsights = () => {
 
         {stats && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Left Column: Stats & Readiness */}
+            {/* Left Column: Stats */}
             <div className="space-y-6">
               {/* Failure Hotspots Card */}
               <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
@@ -168,52 +153,6 @@ const CompanyInsights = () => {
                       </div>
                     ))}
                   </div>
-                )}
-              </div>
-
-              {/* Personal Readiness Card */}
-              <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-50 to-transparent rounded-bl-full opacity-60"></div>
-                <div className="flex items-center gap-2 mb-5 pb-3 border-b border-slate-100 relative z-10">
-                  <div className="p-1.5 bg-indigo-50 rounded-md">
-                    <ShieldAlert className="w-4 h-4 text-indigo-600" />
-                  </div>
-                  <h3 className="font-bold text-slate-800 text-sm uppercase tracking-wide">
-                    Your Readiness
-                  </h3>
-                </div>
-
-                {!readiness ? (
-                  <div className="text-center py-8 bg-slate-50 rounded-xl border border-dashed border-slate-300 relative z-10">
-                    <p className="text-sm text-slate-500 mb-3 font-medium">
-                      No skill data found.
-                    </p>
-                    <a
-                      href="/assessment"
-                      className="text-indigo-600 text-xs font-bold hover:text-indigo-800 uppercase tracking-wide hover:underline"
-                    >
-                      Take Assessment →
-                    </a>
-                  </div>
-                ) : (
-                  <ul className="space-y-2 relative z-10">
-                    {Object.entries(readiness).map(([skill, risk]) => (
-                      <li
-                        key={skill}
-                        className="flex justify-between items-center p-3 hover:bg-slate-50 rounded-lg transition-colors border border-transparent hover:border-slate-100"
-                      >
-                        <span className="font-semibold text-slate-700 text-sm">
-                          {skill}
-                        </span>
-                        <RiskBadge level={risk} />
-                      </li>
-                    ))}
-                    {Object.keys(readiness).length === 0 && (
-                      <li className="text-sm text-slate-400 italic text-center py-4">
-                        No overlapping skills found.
-                      </li>
-                    )}
-                  </ul>
                 )}
               </div>
             </div>
@@ -293,7 +232,7 @@ const CompanyInsights = () => {
                     <div className="space-y-3">
                       {aiSummary.juniorPriorities?.map((item, i) => (
                         <div key={i} className="flex gap-3 items-start group">
-                          <span className="flex-shrink-0 w-6 h-6 bg-white border border-slate-200 rounded-full flex items-center justify-center text-xs font-bold text-slate-500 shadow-sm group-hover:border-indigo-200 group-hover:text-indigo-600 transition-colors">
+                          <span className="shrink-0 w-6 h-6 bg-white border border-slate-200 rounded-full flex items-center justify-center text-xs font-bold text-slate-500 shadow-sm group-hover:border-indigo-200 group-hover:text-indigo-600 transition-colors">
                             {i + 1}
                           </span>
                           <p className="text-sm text-slate-700 leading-relaxed pt-0.5 font-medium">
